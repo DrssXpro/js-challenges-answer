@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <div id="app">
+      <span>
+        <a></a>
+      </span>
+      <span>
+        <a></a>
+        <a></a>
+      </span>
+    </div> -->
+    <script>
+      // 题目：sruct 渲染为 html 注释的 DOM 结构
+      const struct = {
+        tag: "DIV",
+        attrs: {
+          id: "app",
+        },
+        children: [
+          {
+            tag: "SPAN",
+            children: [{ tag: "A", children: [] }],
+          },
+          {
+            tag: "SPAN",
+            children: [
+              { tag: "A", children: [] },
+              { tag: "A", children: [] },
+            ],
+          },
+        ],
+      };
+
+      // key
+      const container = document.getElementsByTagName("body")[0];
+      render(struct, container);
+      function render(struct, container) {
+        const node = document.createElement(struct.tag.toLowerCase());
+        if (struct.attrs) {
+          for (const key in struct.attrs) {
+            node.setAttribute(key, struct.attrs[key]);
+          }
+        }
+        if (struct.children && struct.children.length) {
+          struct.children.forEach((i) => render(i, node));
+        }
+        container.appendChild(node);
+      }
+    </script>
+  </body>
+</html>
