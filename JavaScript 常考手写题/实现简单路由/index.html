@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+      }
+      .box1 {
+        background-color: green;
+      }
+      .box2 {
+        background-color: red;
+      }
+      .box3 {
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#/test1">test1</a>
+    <a href="#/test2">test2</a>
+    <a href="#/test3">test3</a>
+    <div id="app"></div>
+    <script>
+      const App = document.querySelector("#app");
+      class Router {
+        constructor() {
+          this.records = {};
+          window.addEventListener("hashchange", this.refreshPage.bind(this));
+        }
+
+        addRoute(path, cb) {
+          if (!this.records[path]) this.records[path] = [cb];
+          else this.records[path].push(cb);
+        }
+        // #/1234
+        refreshPage() {
+          const path = location.hash.slice(1);
+          if (this.records[path]) this.records[path].forEach((cb) => cb());
+        }
+      }
+
+      const router = new Router();
+      router.addRoute("/test1", () => {
+        App.innerHTML = `<div class='box box1'>test1</div>`;
+      });
+      router.addRoute("/test2", () => {
+        App.innerHTML = `<div class='box box2'>test2</div>`;
+      });
+      router.addRoute("/test3", () => {
+        App.innerHTML = `<div class='box box3'>test3</div>`;
+      });
+    </script>
+  </body>
+</html>
