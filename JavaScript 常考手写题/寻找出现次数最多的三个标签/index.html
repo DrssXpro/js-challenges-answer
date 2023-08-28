@@ -17,16 +17,22 @@
     <span></span>
     <span></span>
     <script>
-      function findTop3Tags() {
-        const doms1 = document.all;
-        const doms2 = document.querySelectorAll("*");
+      function findTop3() {
+        const dom = document.all;
+        // const dom2 = document.querySelectorAll("*");
+
         const map = {};
-        for (let i = 0; i < doms2.length; i++) {
-          map[doms2[i].tagName] ? map[doms2[i].tagName]++ : (map[doms2[i].tagName] = 1);
-        }
-        console.log(Object.entries(map));
+        Array.from(dom).forEach((i) => {
+          map[i.tagName] ? map[i.tagName]++ : (map[i.tagName] = 1);
+        });
+        console.log(
+          Object.entries(map)
+            .sort((a, b) => b[1] - a[1])
+            .map((i) => i[0])
+            .slice(0, 3)
+        );
       }
-      findTop3Tags();
+      findTop3();
     </script>
   </body>
 </html>

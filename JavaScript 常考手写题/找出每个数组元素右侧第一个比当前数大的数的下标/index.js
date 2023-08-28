@@ -1,18 +1,23 @@
 // 一个数组，找出每个数组元素右侧第一个比当前数大的数的下标，时间复杂度O(N)
-const num = [1, 3, 4, 2, 5, 6, 7, 2, 2, 2, 2];
-function findBigIdxs(arr) {
-  const res = new Array(num.length).fill(-1);
-  const stk = [0];
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] <= arr[stk[stk.length - 1]]) stk.push(i);
-    else {
-      let val = stk.pop();
-      res[val] = i;
+const num = [1, 3, 4, 2, 5, 6, 7];
 
-      stk.push(i);
+function findBigIndex(num) {
+  const result = new Array(num.length).fill(-1);
+  const stack = [0];
+  for (let i = 1; i < num.length; i++) {
+    let before = num[stack[stack.length - 1]];
+    if (num[i] <= before) stack.push(i);
+    else {
+      while (stack.length && num[i] > before) {
+        const val = stack.pop();
+        result[val] = i;
+        before = num[stack[stack.length - 1]];
+      }
+      stack.push(i);
     }
   }
-  console.log(res);
+  console.log(result);
+  return result;
 }
 
-findBigIdxs(num);
+findBigIndex(num);
