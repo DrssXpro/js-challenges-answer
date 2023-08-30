@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function JSONP({ url, params, cbName }) {
+        const paramsArr = [];
+        for (const key in params) {
+          if (params.hasOwnProperty(key)) {
+            paramsArr.push(`${key}=${params[key]}`);
+          }
+        }
+        paramsArr.push(`callback=${cbName}`);
+        url += "?" + paramsArr.join("&");
+        return new Promise((resolve) => {
+          const script = document.createElement("script");
+          window[`${cbName}`] = function (data) {
+            resolve(data);
+            document.body.removeChild(script);
+          };
+          script.src = url;
+          document.body.appendChild(script);
+        });
+      }
+
+      JSONP({ url: "http://127.0.0.1:3030/test", params: { a: 1, b: 2 }, cbName: "getData" }).then((res) => {
+        console.log(res);
+      });
+    </script>
+  </body>
+</html>
